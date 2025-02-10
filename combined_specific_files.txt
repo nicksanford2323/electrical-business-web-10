@@ -1,0 +1,1295 @@
+// Combined React Project Files
+
+
+// LoadingScreen.jsx
+==================================================
+import React, { useEffect, useState } from 'react';
+import './LoadingScreen.css';
+
+const LoadingScreen = ({ businessName }) => {
+  const [voltage, setVoltage] = useState(0);
+  const [wireProgress, setWireProgress] = useState(0);
+
+  useEffect(() => {
+    const voltageInterval = setInterval(() => {
+      setVoltage(prev => (prev >= 230 ? 230 : prev + 23));
+    }, 300);
+
+    const wireInterval = setInterval(() => {
+      setWireProgress(prev => (prev >= 100 ? 0 : prev + 10));
+    }, 500);
+
+    return () => {
+      clearInterval(voltageInterval);
+      clearInterval(wireInterval);
+    };
+  }, []);
+
+  return (
+    <div className="electrician-container">
+      {/* Blueprint Background */}
+      <div className="blueprint-grid" />
+
+      {/* Animated Circuit Path */}
+      <div className="wiring-diagram">
+        <div className="circuit-path">
+          <div 
+            className="live-wire"
+            style={{ width: `${wireProgress}%` }}
+          />
+        </div>
+        <div className="connection-dots">
+          {[0, 25, 50, 75, 100].map(pos => (
+            <div 
+              key={pos}
+              className="connection"
+              style={{ left: `${pos}%` }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="electrician-content">
+        <div className="tool-icon">
+          <div className="screwdriver" />
+          <div className="pliers" />
+        </div>
+
+        <h1 className="voltage-display">
+          {voltage}V
+          <span className="voltage-label">Live Circuit</span>
+        </h1>
+
+        <div className="circuit-loader">
+          <div className="wire-progress" style={{ width: `${wireProgress}%` }} />
+          <div className="wire-ends" />
+        </div>
+
+        <p className="electrician-tagline">
+          {businessName || "Professional Electrical Services"}
+          <br />
+          <span className="safety-message">Certified & Insured</span>
+        </p>
+      </div>
+
+      {/* Safety Badges */}
+      <div className="safety-badges">
+        <div className="certification-badge">
+          <span className="ohm-symbol">Ω</span>
+          <span>Certified</span>
+        </div>
+        <div className="certification-badge">
+          <span className="voltage-symbol">⚡</span>
+          <span>240V Rated</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoadingScreen;
+
+
+
+// LoadingScreen.css
+==================================================
+.electrician-container {
+  height: 100vh;
+  background: #1a1a2a;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+.blueprint-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 100, 200, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 100, 200, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.wiring-diagram {
+  position: absolute;
+  width: 80%;
+  height: 200px;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+}
+
+.circuit-path {
+  height: 4px;
+  background: #333;
+  position: relative;
+  border-radius: 2px;
+}
+
+.live-wire {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700, #ff4500);
+  box-shadow: 0 0 15px #ff450055;
+  transition: width 0.5s ease;
+}
+
+.connection-dots {
+  position: absolute;
+  width: 100%;
+  top: -3px;
+}
+
+.connection {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #ff4500;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.voltage-display {
+  color: #ffd700;
+  font-size: 3.5rem;
+  text-align: center;
+  margin: 2rem 0;
+  text-shadow: 0 0 10px #ffd70033;
+}
+
+.voltage-label {
+  display: block;
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 0.1em;
+}
+
+.circuit-loader {
+  width: 300px;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  margin: 2rem auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.wire-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4500, #ffd700);
+  transition: width 0.5s ease;
+}
+
+.wire-ends {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 9px,
+    #fff 10px,
+    transparent 11px
+  );
+}
+
+.tool-icon {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.screwdriver {
+  position: absolute;
+  width: 80px;
+  height: 10px;
+  background: #666;
+  transform: rotate(45deg);
+  border-radius: 5px;
+}
+
+.pliers {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  border: 4px solid #666;
+  border-radius: 5px 5px 0 0;
+  transform: rotate(-45deg);
+  top: 30px;
+  left: 20px;
+}
+
+.safety-badges {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 1rem;
+}
+
+.certification-badge {
+  padding: 0.5rem 1rem;
+  background: #00000050;
+  border-radius: 4px;
+  border: 1px solid #ff4500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.ohm-symbol {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.voltage-symbol {
+  font-size: 1.4rem;
+}
+
+.electrician-tagline {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2rem;
+}
+
+.safety-message {
+  display: block;
+  font-size: 0.8rem;
+  color: #ff4500;
+  letter-spacing: 0.2em;
+  margin-top: 0.5rem;
+}
+
+
+
+// Reviews.jsx
+==================================================
+import React, { useState, useEffect, useCallback } from 'react';
+import './Reviews.css';
+
+function Reviews({ business }) {
+  if (!business) return null;
+
+  const {
+    rating: ratingStr,
+    reviews: reviewCountStr,
+    reviews_link: reviewsLink,
+  } = business.businessInfo || {};
+
+  const rating = parseFloat(ratingStr) || 0;
+  const reviewCount = parseInt(reviewCountStr, 10) || 0;
+  const reviewsArray = business.reviews || [];
+  const businessName = business.businessName || '';
+
+  // Only show reviews if rating is at least 4.5 and there are 5 or more reviews
+  const showReviewsSection = (rating >= 4.5) && (reviewCount >= 5);
+
+  if (!showReviewsSection) {
+    return null;
+  }
+
+  const [currentReview, setCurrentReview] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const nextReview = useCallback(() => {
+    setCurrentReview(current => (current + 1) % reviewsArray.length);
+  }, [reviewsArray.length]);
+
+  const prevReview = useCallback(() => {
+    setCurrentReview(current => (current - 1 + reviewsArray.length) % reviewsArray.length);
+  }, [reviewsArray.length]);
+
+  // Auto advance reviews
+  useEffect(() => {
+    if (!isPaused) {
+      const timer = setInterval(nextReview, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [isPaused, nextReview]);
+
+  return (
+    <section className="reviews-section">
+      <div className="reviews-header">
+        <h2>{businessName} Reviews</h2>
+        <div className="rating-display">
+          <div className="stars">★★★★★</div>
+          <p>{rating} out of 5 stars based on {reviewCount} reviews</p>
+        </div>
+      </div>
+
+      <div 
+        className="reviews-slideshow"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <div 
+          className="reviews-track"
+          style={{ transform: `translateX(-${currentReview * 100}%)` }}
+        >
+          {reviewsArray.map((review, index) => {
+            if (!review.review_text?.trim()) return null;
+
+            return (
+              <div className="review-slide" key={index}>
+                <div className="review-card">
+                  <div className="reviewer-info">
+                    <h3>{review.reviewer_name || 'Customer Review'}</h3>
+                    <div className="review-stars">★★★★★</div>
+                  </div>
+                  <p className="review-text">{review.review_text}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <button className="nav-button prev" onClick={prevReview}>←</button>
+        <button className="nav-button next" onClick={nextReview}>→</button>
+      </div>
+
+      <div className="reviews-cta">
+        <p>Share your experience with our services</p>
+        <a 
+          href={reviewsLink || '#'} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="review-button"
+        >
+          Leave Us a Review
+        </a>
+      </div>
+    </section>
+  );
+}
+
+export default Reviews;
+
+
+// Reviews.css
+==================================================
+/* Reviews.css */
+.reviews-section {
+  padding: 80px 24px;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  margin-top: -2px;
+}
+
+.reviews-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  pointer-events: none;
+}
+
+.reviews-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  position: relative;
+}
+
+.reviews-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.rating-display {
+  margin-bottom: 3rem;
+}
+
+.stars {
+  font-size: 2.5rem;
+  color: #f5a623;
+  margin-bottom: 1rem;
+  letter-spacing: 4px;
+}
+
+/* Slideshow Container */
+.reviews-slideshow {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.reviews-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.review-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.review-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.reviewer-info {
+  margin-bottom: 1.5rem;
+}
+
+.reviewer-info h3 {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.review-stars {
+  color: #f5a623;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+.review-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+/* Navigation Buttons */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  z-index: 2;
+}
+
+.nav-button.prev {
+  left: 0;
+}
+
+.nav-button.next {
+  right: 0;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* CTA Section */
+.reviews-cta {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.reviews-cta p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+.review-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.review-button:hover {
+  background: rgba(52, 152, 219, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .reviews-section {
+    padding: 60px 20px;
+  }
+
+  .reviews-header h2 {
+    font-size: 2rem;
+  }
+
+  .stars {
+    font-size: 2rem;
+  }
+
+  .review-card {
+    padding: 1.5rem;
+  }
+
+  .nav-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+}
+
+
+// ServiceArea.jsx
+==================================================
+import React from 'react';
+import './ServiceArea.css';
+
+function ServiceArea({ business }) {
+  const { latitude, longitude, city, state, full_address } = business.businessInfo;
+
+  // Calculate bounding box for OpenStreetMap
+  const bbox = {
+    minLon: longitude - 0.5,
+    minLat: latitude - 0.5,
+    maxLon: longitude + 0.5,
+    maxLat: latitude + 0.5
+  };
+
+  // Example service cities - you would customize per business
+  const serviceCities = [
+    `${city}, ${state}`,
+    "Nearby City 1",
+    "Nearby City 2",
+    "Nearby City 3",
+    "Nearby City 4",
+    "Nearby City 5"
+  ];
+
+  return (
+    <section className="service-area">
+      <h2>Areas We Serve</h2>
+
+      <div className="service-container">
+        {/* Left side: City list */}
+        <div className="city-list">
+          <ul>
+            {serviceCities.map((city, index) => (
+              <li key={index}>
+                <span className="star">★</span> {city}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Right side: Map */}
+        <div className="map-wrapper">
+          <iframe
+            title="Service Area Map"
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            scrolling="no"
+            src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}&layer=mapnik&marker=${latitude},${longitude}`}
+          />
+
+          {/* Blue overlay to show service area */}
+          <div className="map-overlay">
+            <div className="service-radius"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Service area disclaimer */}
+      <div className="service-disclaimer">
+        <p>Our main office is located at: {full_address}</p>
+        <p>We service all surrounding areas. Contact us to confirm service availability in your location.</p>
+      </div>
+    </section>
+  );
+}
+
+export default ServiceArea;
+
+
+// ServiceArea.css
+==================================================
+.service-area {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.service-area h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.service-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.city-list {
+  background: #f8f8f8;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.city-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.city-list li {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  color: #ffd700;
+  margin-right: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.map-wrapper {
+  position: relative;
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.service-radius {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background: rgba(66, 133, 244, 0.15);
+  border: 2px solid rgba(66, 133, 244, 0.3);
+}
+
+.service-disclaimer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+}
+
+.service-disclaimer p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .service-container {
+    grid-template-columns: 1fr;
+  }
+
+  .map-wrapper {
+    height: 400px;
+  }
+
+  .city-list {
+    padding: 1rem;
+  }
+}
+
+
+// Services.jsx
+==================================================
+import React, { useEffect, useRef } from 'react';
+import './Services.css';
+
+function Services({ business }) {
+  const { color1, color2, phone } = business.businessInfo;
+  const servicesRef = useRef(null);
+
+  // Animation observer setup
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    const cards = document.querySelectorAll('.service-card');
+    cards.forEach(card => observer.observe(card));
+
+    return () => cards.forEach(card => observer.unobserve(card));
+  }, []);
+
+  const services = [
+    {
+      title: "Residential Services",
+      description:
+        "Complete home electrical solutions including installations, repairs, and upgrades for your peace of mind.",
+      icon: "⚡",
+    },
+    {
+      title: "Commercial Services",
+      description:
+        "Professional electrical installations and maintenance for businesses of all sizes.",
+      icon: "🏢",
+    },
+    {
+      title: "Emergency Service",
+      description:
+        "24/7 emergency electrical repairs and support when you need it most.",
+      icon: "🚨",
+    },
+    {
+      title: "Panel Upgrades",
+      description:
+        "Electrical panel replacements and capacity upgrades to meet your power needs.",
+      icon: "🔌",
+    },
+    {
+      title: "Safety Inspections",
+      description:
+        "Comprehensive electrical safety audits and certification services.",
+      icon: "✓",
+    },
+    {
+      title: "Lighting Design",
+      description:
+        "Custom lighting solutions to enhance your space with modern, efficient fixtures.",
+      icon: "💡",
+    },
+  ];
+
+  return (
+    <section id="services" className="services-section" ref={servicesRef}>
+      {/* Section Header */}
+      <div className="services-header">
+        <h2 style={{ color: color1 || '#3498db' }}>
+          Our Services
+        </h2>
+        <p>
+          Contact us for a complete list of our professional electrical services and solutions
+        </p>
+      </div>
+
+      {/* Services Grid */}
+      <div className="services-grid">
+        {services.map((service, index) => (
+          <div
+            key={index}
+            className="service-card"
+            style={{
+              '--card-color': color1 || '#3498db',
+            }}
+          >
+            <div 
+              className="service-icon"
+              style={{ color: color1 || '#3498db' }}
+            >
+              {service.icon}
+            </div>
+
+            <div className="service-details">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+
+            <div className="service-contact">
+              <a
+                href={`tel:${phone}`}
+                className="contact-button"
+                style={{
+                  background: `linear-gradient(45deg, ${color1 || '#3498db'}, ${color2 || '#2980b9'})`,
+                  boxShadow: `0 4px 15px ${color1 ? color1 + '4D' : 'rgba(52, 152, 219, 0.3)'}`,
+                }}
+              >
+                Call Us: {phone}
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default Services;
+
+
+// Services.css
+==================================================
+/* Services.css */
+.services-section {
+  padding: 80px 24px;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  margin-top: -2px;
+}
+
+/* Circuit board background */
+.services-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  pointer-events: none;
+}
+
+/* Header Styles */
+.services-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.services-header h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #3498db;
+}
+
+.services-header p {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* Grid Layout */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Service Card Layout */
+.service-card {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.service-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(52, 152, 219, 0.1);
+}
+
+.service-card:hover::before {
+  left: 100%;
+}
+
+/* Icon with glow effect */
+.service-icon {
+  font-size: 2.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.service-icon::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.1;
+  filter: blur(10px);
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon::after {
+  width: 60px;
+  height: 60px;
+  opacity: 0.2;
+}
+
+/* Service Details */
+.service-details {
+  flex: 1;
+}
+
+.service-details h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  text-align: center;
+}
+
+.service-details p {
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Contact Button */
+.service-contact {
+  margin-top: auto;
+  text-align: center;
+}
+
+.contact-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  color: #fff;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.contact-button::before {
+  content: '📞';
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Animation delays for cards */
+.service-card:nth-child(1) { transition-delay: 0.1s; }
+.service-card:nth-child(2) { transition-delay: 0.2s; }
+.service-card:nth-child(3) { transition-delay: 0.3s; }
+.service-card:nth-child(4) { transition-delay: 0.4s; }
+.service-card:nth-child(5) { transition-delay: 0.5s; }
+.service-card:nth-child(6) { transition-delay: 0.6s; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .services-section {
+    padding: 60px 20px;
+  }
+
+  .services-header h2 {
+    font-size: 2rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    padding: 1.5rem;
+  }
+}
+
+
+
+
+
+// App.css
+==================================================
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.footer {
+  margin-top: auto;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 2rem 0;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5rem 0;
+}
+
+
+// App.jsx
+==================================================
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header.jsx';
+import Hero from './components/Hero.jsx';
+import About from './components/About.jsx';
+import Services from './components/Services.jsx';
+import Reviews from './components/Reviews.jsx';
+import Gallery from './components/Gallery.jsx';
+import Contact from './components/Contact.jsx';
+import Footer from './components/Footer.jsx';
+import LoadingScreen from './components/LoadingScreen.jsx';
+import './App.css';
+
+function App() {
+  const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [currentSection, setCurrentSection] = useState('home');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    // URL of your JSON data on GitHub
+    const dataUrl = 'https://raw.githubusercontent.com/nicksanford2323/business-data-fixed2/main/data.json';
+
+    fetch(dataUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const params = new URLSearchParams(window.location.search);
+        const businessId = params.get('id') || 'ChIJf2n-H9t1uCQRUzPxaliDdqM';
+        console.log('Selected businessId:', businessId);
+
+        if (data[businessId]) {
+          console.log('Found business data for ID:', businessId);
+          setSelectedBusiness(data[businessId]);
+
+          // Enforce a minimum loading time of 6 seconds for the animation
+          setTimeout(() => {
+            setIsTransitioning(true);
+            // Wait for fade-out animation before removing loading screen
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 1000);
+          }, 4000);
+        } else {
+          console.error('Business ID not found in JSON. Defaulting to Dupree Electrical.');
+          setSelectedBusiness(data['ChIJf2n-H9t1uCQRUzPxaliDdqM']);
+
+          setTimeout(() => {
+            setIsTransitioning(true);
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 1000);
+          }, 4000);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching business data:', error);
+        setIsLoading(false);
+      });
+  }, []);
+
+  const handleNavigation = (section) => {
+    setCurrentSection(section);
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <>
+      {!selectedBusiness ? (
+        <LoadingScreen businessName="Loading..." />
+      ) : isLoading ? (
+        <LoadingScreen
+          businessName={selectedBusiness.businessName}
+          logo={selectedBusiness.businessInfo.logo}
+          colors={{
+            color1: selectedBusiness.businessInfo.color1,
+            color2: selectedBusiness.businessInfo.color2,
+          }}
+          className={isTransitioning ? 'fade-out' : ''}
+        />
+      ) : (
+        <div className="app fade-in">
+          <Header
+            business={selectedBusiness}
+            onNavigate={handleNavigation}
+            currentSection={currentSection}
+          />
+
+          <main>
+            {/* Hero Section */}
+            <section id="home">
+              <Hero business={selectedBusiness} />
+            </section>
+
+            {/* About Section */}
+            <section id="about">
+              <About business={selectedBusiness} />
+            </section>
+
+            {/* Services Section */}
+            <section id="services">
+              <Services business={selectedBusiness} />
+            </section>
+
+            {/* Reviews Section */}
+            <section id="reviews">
+              <Reviews business={selectedBusiness} />
+            </section>
+
+            {/* Gallery Section */}
+            <section id="gallery">
+              <Gallery business={selectedBusiness} />
+            </section>
+
+            {/* Contact Us Section */}
+            <section id="contact">
+              <Contact business={selectedBusiness} />
+            </section>
+          </main>
+
+          <Footer business={selectedBusiness} />
+        </div>
+      )}
+    </>
+  );
+}
+
+export default App;
+
+
+// index.css
+==================================================
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+// index.jsx
+==================================================
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+

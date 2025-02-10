@@ -1,0 +1,25 @@
+{
+  "name": "electrical-business-web-1",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Vite + React site for electrical-business-web-1",
+  "homepage": "https://nicksanford2323.github.io/electrical-business-web-10/",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "gh-pages": "^5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^5.0.0"
+  }
+}

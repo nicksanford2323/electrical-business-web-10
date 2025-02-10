@@ -1,0 +1,158 @@
+/* Theme Variables */
+:root {
+  /* Dark theme */
+  --dark-bg: #0a0a0a;
+  --dark-text: #ffffff;
+  --dark-card-bg: rgba(255, 255, 255, 0.02);
+  --dark-border: rgba(255, 255, 255, 0.1);
+  --dark-footer: #1a1a1a;
+
+  /* Light theme */
+  --light-bg: #ffffff;
+  --light-text: #333333;
+  --light-card-bg: #f8f8f8;
+  --light-border: #e0e0e0;
+  --light-footer: #f5f5f5;
+
+  /* Common colors */
+  --primary: #3498db;
+  --secondary: #2980b9;
+  --accent: #f5a623;
+}
+
+/* Theme Classes */
+.theme-dark {
+  --bg-color: var(--dark-bg);
+  --text-color: var(--dark-text);
+  --card-bg: var(--dark-card-bg);
+  --border-color: var(--dark-border);
+  --footer-bg: var(--dark-footer);
+}
+
+.theme-light {
+  --bg-color: var(--light-bg);
+  --text-color: var(--light-text);
+  --card-bg: var(--light-card-bg);
+  --border-color: var(--light-border);
+  --footer-bg: var(--light-footer);
+}
+
+/* Base App Styles */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Animation Styles */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+/* Footer Styles */
+.footer {
+  margin-top: auto;
+  background-color: var(--footer-bg);
+  color: var(--text-color);
+  padding: 2rem 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5rem 0;
+}
+
+/* Theme Switcher Styles */
+.theme-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 20px;
+  cursor: pointer;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.theme-switcher:hover {
+  transform: translateY(-2px);
+}
+
+.switch-track {
+  width: 50px;
+  height: 24px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.switch-handle {
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  transition: all 0.3s ease;
+}
+
+.theme-dark .switch-handle {
+  left: 2px;
+}
+
+.theme-light .switch-handle {
+  left: 28px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem 0;
+  }
+
+  .footer-content {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Section Styles */
+section {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Card Styles */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

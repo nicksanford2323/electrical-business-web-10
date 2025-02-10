@@ -1,0 +1,167 @@
+/* About.css */
+.about-section {
+  padding: 60px 24px;
+  position: relative;
+  overflow: hidden;
+  margin-top: -2px; /* Fix gap */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* DARK THEME */
+.about-section.theme-dark {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+.about-section.theme-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(52, 152, 219, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 152, 219, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  pointer-events: none;
+}
+
+/* LIGHT THEME */
+.about-section.theme-light {
+  background-color: #ffffff;
+  color: #333333;
+}
+.about-section.theme-light::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(52, 152, 219, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 152, 219, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  pointer-events: none;
+}
+
+.about-content {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 60px;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
+
+.about-slideshow {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: translateZ(0);
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.about-image:hover {
+  transform: scale(1.05);
+}
+
+.about-info {
+  flex: 1;
+  min-width: 300px;
+  padding-right: 20px;
+}
+
+.about-info h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  /* Keep the accent color (blue) for the heading */
+  color: #3498db;
+  position: relative;
+  display: inline-block;
+}
+
+.about-info h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: #3498db;
+  border-radius: 2px;
+}
+
+/* Reset paragraph color so it inherits the container’s color by default */
+.about-info p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: inherit;
+}
+
+/* Ensure paragraph text is dark in light mode – add !important to force the override if needed */
+.about-section.theme-light .about-info p {
+  color: #333333 !important;
+}
+
+/* Electric button */
+.electric-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 28px;
+  background: linear-gradient(45deg, #3498db, #2980b9);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.electric-button::before {
+  content: '📞';
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.electric-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+  background: linear-gradient(45deg, #2980b9, #3498db);
+}
+
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .about-slideshow {
+    width: 100%;
+  }
+
+  .about-info {
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .about-info h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

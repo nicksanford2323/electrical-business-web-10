@@ -1,0 +1,170 @@
+.electrician-container {
+  height: 100vh;
+  background: #1a1a2a;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+.blueprint-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 100, 200, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 100, 200, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.wiring-diagram {
+  position: absolute;
+  width: 80%;
+  height: 200px;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+}
+
+.circuit-path {
+  height: 4px;
+  background: #333;
+  position: relative;
+  border-radius: 2px;
+}
+
+.live-wire {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700, #ff4500);
+  box-shadow: 0 0 15px #ff450055;
+  transition: width 0.5s ease;
+}
+
+.connection-dots {
+  position: absolute;
+  width: 100%;
+  top: -3px;
+}
+
+.connection {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #ff4500;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.voltage-display {
+  color: #ffd700;
+  font-size: 3.5rem;
+  text-align: center;
+  margin: 2rem 0;
+  text-shadow: 0 0 10px #ffd70033;
+}
+
+.voltage-label {
+  display: block;
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 0.1em;
+}
+
+.circuit-loader {
+  width: 300px;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  margin: 2rem auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.wire-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4500, #ffd700);
+  transition: width 0.5s ease;
+}
+
+.wire-ends {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 9px,
+    #fff 10px,
+    transparent 11px
+  );
+}
+
+.tool-icon {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.screwdriver {
+  position: absolute;
+  width: 80px;
+  height: 10px;
+  background: #666;
+  transform: rotate(45deg);
+  border-radius: 5px;
+}
+
+.pliers {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  border: 4px solid #666;
+  border-radius: 5px 5px 0 0;
+  transform: rotate(-45deg);
+  top: 30px;
+  left: 20px;
+}
+
+.safety-badges {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 1rem;
+}
+
+.certification-badge {
+  padding: 0.5rem 1rem;
+  background: #00000050;
+  border-radius: 4px;
+  border: 1px solid #ff4500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.ohm-symbol {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.voltage-symbol {
+  font-size: 1.4rem;
+}
+
+.electrician-tagline {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2rem;
+}
+
+.safety-message {
+  display: block;
+  font-size: 0.8rem;
+  color: #ff4500;
+  letter-spacing: 0.2em;
+  margin-top: 0.5rem;
+}
