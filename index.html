@@ -15,133 +15,55 @@
       })();
     </script>
     <!-- End Matomo Tag Manager -->
-    <!-- Enhanced Business View Tracking -->
+    <!-- Business View Tracking -->
     <script>
-      // Track page visit duration
-      let startTime = new Date();
-      let maxScrollDepth = 0;
-      let lastActivityTime = new Date();
-      let hasScrolled25 = false;
-      let hasScrolled50 = false;
-      let hasScrolled75 = false;
-      let hasScrolled100 = false;
-
       async function trackBusinessView() {
           const urlParams = new URLSearchParams(window.location.search);
           const businessId = urlParams.get('id');
           
           if(businessId) {
               try {
+                  console.log('Fetching business data for:', businessId);
+                  
                   // Fetch business data from GitHub
                   const response = await fetch('https://raw.githubusercontent.com/nicksanford2323/business-data-fixed2/main/data.json');
                   const data = await response.json();
+                  console.log('Fetched data:', data);
+                  
+                  // Look for the business using the ID
                   const businessData = data[businessId];
+                  console.log('Found business data:', businessData);
                   
                   if(businessData && businessData.businessInfo) {
-                      // Initial view tracking
-                      sendToHighLevel(businessData, 'initial_view');
-                  }
-              } catch(error) {
-                  console.error('Error fetching business data:', error);
-              }
-          }
-      }
-
-      function sendToHighLevel(businessData, eventType, additionalData = {}) {
-          const baseData = {
-              businessId: businessData.businessName,
-              action: eventType,
-              timestamp: new Date().toISOString(),
-              businessName: businessData.businessName,
-              phone: businessData.businessInfo.phone,
-              address: businessData.businessInfo.full_address,
-              opportunity_name: `Website View - ${businessData.businessName}`,
-              source: "Website View Tracking",
-              url: window.location.href,
-              timeOnPage: Math.round((new Date() - startTime) / 1000), // Time in seconds
-              maxScrollDepth: maxScrollDepth,
-              lastActivity: Math.round((new Date() - lastActivityTime) / 1000) // Time since last activity
-          };
-
-          fetch('https://services.leadconnectorhq.com/hooks/2CUu2UzbKL9UUAOvmqJR/webhook-trigger/a990e8c5-8408-45ff-8c18-58cb84f6adb3', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  ...baseData,
-                  ...additionalData
-              })
-          })
-          .then(response => console.log(`${eventType} tracked successfully`))
-          .catch(error => console.error('Error sending webhook:', error));
-      }
-
-      // Track scroll depth
-      function trackScrollDepth() {
-          const winHeight = window.innerHeight;
-          const docHeight = document.documentElement.scrollHeight;
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
-          
-          maxScrollDepth = Math.max(maxScrollDepth, Math.round(scrollPercent));
-
-          // Track specific scroll milestones
-          if (scrollPercent >= 25 && !hasScrolled25) {
-              hasScrolled25 = true;
-              _mtm.push(['trackEvent', 'Scroll Depth', '25%', window.location.href]);
-          }
-          if (scrollPercent >= 50 && !hasScrolled50) {
-              hasScrolled50 = true;
-              _mtm.push(['trackEvent', 'Scroll Depth', '50%', window.location.href]);
-          }
-          if (scrollPercent >= 75 && !hasScrolled75) {
-              hasScrolled75 = true;
-              _mtm.push(['trackEvent', 'Scroll Depth', '75%', window.location.href]);
-          }
-          if (scrollPercent >= 90 && !hasScrolled100) {
-              hasScrolled100 = true;
-              _mtm.push(['trackEvent', 'Scroll Depth', '100%', window.location.href]);
-          }
-      }
-
-      // Track user activity
-      function updateActivity() {
-          lastActivityTime = new Date();
-      }
-
-      // Send final tracking data before page unload
-      async function sendFinalTracking() {
-          const urlParams = new URLSearchParams(window.location.search);
-          const businessId = urlParams.get('id');
-          
-          if(businessId) {
-              try {
-                  const response = await fetch('https://raw.githubusercontent.com/nicksanford2323/business-data-fixed2/main/data.json');
-                  const data = await response.json();
-                  const businessData = data[businessId];
-                  
-                  if(businessData && businessData.businessInfo) {
-                      sendToHighLevel(businessData, 'page_exit', {
-                          finalScrollDepth: maxScrollDepth,
-                          totalTimeOnPage: Math.round((new Date() - startTime) / 1000)
+                      // Send to High Level with just business ID and phone
+                      const webhookData = {
+                          businessId: businessId,
+                          businessName: businessData.businessName,
+                          phone: businessData.businessInfo.phone
+                      };
+                      
+                      console.log('Sending webhook data:', webhookData);
+                      
+                      const response = await fetch('https://services.leadconnectorhq.com/hooks/2CUu2UzbKL9UUAOvmqJR/webhook-trigger/a990e8c5-8408-45ff-8c18-58cb84f6adb3', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(webhookData)
                       });
+                      
+                      console.log('Webhook response:', response.status);
+                  } else {
+                      console.error('Business data not found for ID:', businessId);
                   }
               } catch(error) {
-                  console.error('Error sending final tracking:', error);
+                  console.error('Error in trackBusinessView:', error);
               }
           }
       }
 
-      // Set up event listeners
+      // Wait for DOM and then track
       document.addEventListener('DOMContentLoaded', trackBusinessView);
-      window.addEventListener('scroll', () => {
-          trackScrollDepth();
-          updateActivity();
-      });
-      document.addEventListener('mousemove', updateActivity);
-      document.addEventListener('keypress', updateActivity);
-      window.addEventListener('beforeunload', sendFinalTracking);
     </script>
     <script type="module" crossorigin src="/electrical-business-web-10/assets/index-9McAvYbS.js"></script>
     <link rel="stylesheet" crossorigin href="/electrical-business-web-10/assets/index-B8yIw-R9.css">
