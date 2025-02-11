@@ -5,7 +5,6 @@
     <link rel="icon" type="image/svg+xml" href="/electrical-business-web-10/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React + TypeScript + Replit</title>
-
     <!-- Matomo Tag Manager -->
     <script>
       var _mtm = window._mtm = window._mtm || [];
@@ -16,6 +15,39 @@
       })();
     </script>
     <!-- End Matomo Tag Manager -->
+    <!-- Business View Tracking -->
+    <script>
+      function trackBusinessView() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const businessId = urlParams.get('id');
+        
+        if(businessId) {
+          // Track in Matomo
+          if(window._mtm) {
+            _mtm.push(['trackEvent', 'Business View', 'View', businessId]);
+          }
+          
+          // Send to High Level
+          fetch('https://services.leadconnectorhq.com/hooks/2CUu2UzbKL9UUAOvmqJR/webhook-trigger/a990e8c5-8408-45ff-8c18-58cb84f6adb3', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              businessId: businessId,
+              action: 'view',
+              timestamp: new Date().toISOString(),
+              url: window.location.href
+            })
+          })
+          .then(response => console.log('High Level webhook sent successfully'))
+          .catch(error => console.error('Error sending webhook:', error));
+        }
+      }
+
+      // Run tracking when page loads
+      document.addEventListener('DOMContentLoaded', trackBusinessView);
+    </script>
     <script type="module" crossorigin src="/electrical-business-web-10/assets/index-9McAvYbS.js"></script>
     <link rel="stylesheet" crossorigin href="/electrical-business-web-10/assets/index-B8yIw-R9.css">
   </head>
