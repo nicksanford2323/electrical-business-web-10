@@ -23,11 +23,25 @@
           
           if(businessId) {
               try {
+                  // Get client IP from Cloudflare headers
+                  const response = await fetch('https://api.ipify.org?format=json');
+                  const ipData = await response.json();
+                  const clientIP = ipData.ip;
+                  
+                  // List of IPs to exclude
+                  const excludedIPs = ['67.20.0.0', '67.20.0.8'];
+                  
+                  // Check if client IP is in excluded list
+                  if (excludedIPs.includes(clientIP)) {
+                      console.log('IP excluded from tracking');
+                      return;
+                  }
+                  
                   console.log('Fetching business data for:', businessId);
                   
                   // Fetch business data from GitHub
-                  const response = await fetch('https://raw.githubusercontent.com/nicksanford2323/business-data-fixed2/main/data.json');
-                  const data = await response.json();
+                  const businessResponse = await fetch('https://raw.githubusercontent.com/nicksanford2323/business-data-fixed2/main/data.json');
+                  const data = await businessResponse.json();
                   console.log('Fetched data:', data);
                   
                   // Look for the business using the ID
@@ -44,7 +58,7 @@
                       
                       console.log('Sending webhook data:', webhookData);
                       
-                      const response = await fetch('https://services.leadconnectorhq.com/hooks/2CUu2UzbKL9UUAOvmqJR/webhook-trigger/a990e8c5-8408-45ff-8c18-58cb84f6adb3', {
+                      const webhookResponse = await fetch('https://services.leadconnectorhq.com/hooks/2CUu2UzbKL9UUAOvmqJR/webhook-trigger/a990e8c5-8408-45ff-8c18-58cb84f6adb3', {
                           method: 'POST',
                           headers: {
                               'Content-Type': 'application/json'
@@ -52,7 +66,7 @@
                           body: JSON.stringify(webhookData)
                       });
                       
-                      console.log('Webhook response:', response.status);
+                      console.log('Webhook response:', webhookResponse.status);
                   } else {
                       console.error('Business data not found for ID:', businessId);
                   }
